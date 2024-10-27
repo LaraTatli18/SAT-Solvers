@@ -14,9 +14,9 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     for clause in clause_set:
         # check for unsatisfied clauses with the current partial assignment
         unsat = True
-        for literal in clause:
+        for literal in clause: # a clause is satisfied if any literal in it is satisfied
             if literal > 0 and literal not in partial_assignment or literal < 0 and -literal not in partial_assignment:
-                unsat = False # mark as satisfied
+                unsat = False # mark as satisfied, stop checking further
                 break
         if unsat: # if any clause is unsatisfied by this assignment
             return False
@@ -24,7 +24,7 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     # branch on an unassigned literal
     chooselit = None
     for clause in clause_set:
-        for literal in clause:
+        for literal in clause: # select the first unassigned literal
             if abs(literal) not in [abs(x) for x in partial_assignment]: # find a literal not yet assigned in the partial assignment
                 chooselit = abs(literal)
                 break
@@ -34,7 +34,7 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
         # if there are no literals left to assign, UNSAT
         return False
 
-    # branching: first, try assigning chooselit = True
+    # branching step 1: first, try assigning chooselit = True
     true_assignment = partial_assignment + [chooselit]
     true_clauses = [[i for i in clause if i != chooselit and i != -chooselit] for clause in clause_set if
                     chooselit not in clause]
@@ -44,12 +44,12 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     if true_result != False:
         return true_result
 
-    # if assigning chooselit = True fails, try assigning False
+    # if assigning chooselit = True fails, backtrack and try assigning False
     false_assignment = partial_assignment + [-chooselit]
     false_clauses = [[i for i in clause if i != chooselit and i != -chooselit] for clause in clause_set if
-                     -chooselit not in clause] # as previous, reduce the clause set (backtracking)
-    false_result = branching_sat_solve(false_clauses, false_assignment) # recursively solve with the new clause set and updated assignment
-    # if false assignment is successful, return the solution, else UNSAT
+                     -chooselit not in clause] # as previous, reduce the clause set
+    false_result = branching_sat_solve(false_clauses, false_assignment) # recursively solve with the new clause set and updated partial assignment
+    # if false assignment is successful, return the solution, else UNSAT since neither branch yields a solution
     if false_result != False:
         return false_result
     return False
