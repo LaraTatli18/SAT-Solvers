@@ -7,9 +7,11 @@ A computational project completed in my 1st year of undergraduate studies as par
 
 ### Text Files
 - `sat.txt`: A basic DIMACS file for testing solvers on a satisfiable (SAT) problem.
-- `unsat.txt`: A basic DIMACS file representing an unsatisfiable problem.
+- `unsat.txt`: A basic DIMACS file representing an unsatisfiable (UNSAT) problem.
 - Additional files (`4queens.txt`, `8queens.txt`, etc.) are also provided.
 
+## Preparation Files
+- `load-dimacs-file.py`: Reads and parses a DIMACS file into a readable data structure (list format) that the SAT solvers can process.
 
 ### SAT Solvers
 - `simple-sat-solver.py`: Implements a brute-force approach that tests all possible truth assignments. Limited to very small problems due to exponential complexity.
