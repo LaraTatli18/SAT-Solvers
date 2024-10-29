@@ -10,7 +10,7 @@ A computational project completed in my 1st year of undergraduate studies as par
 - `unsat.txt`: A basic DIMACS file representing an unsatisfiable (UNSAT) problem.
 - Additional files (`4queens.txt`, `8queens.txt`, etc.) are also provided.
 
-## Preparation Files
+### Preparation Files
 - `load-dimacs-file.py`: Reads and parses a DIMACS file into a readable data structure (list format) that the SAT solvers can process.
 
 ### SAT Solvers
