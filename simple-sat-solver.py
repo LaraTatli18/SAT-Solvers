@@ -17,20 +17,21 @@ def simple_sat_solve(clause_set):
                 pure_literals.append(abs(literal))
     n = len(pure_literals) # number of unique literals
 
-    assignment = list(itertools.product([False, True], repeat=n))
+    assignment = list(itertools.product([False, True], repeat=n)) # generates all possible combinations of n Boolean values in the form of a list of tuples
     # iterating through each truth assignment to find one that satisfies all clauses
     for i in range(2 ** n):
         truth_assignment = [literal if value else -(literal) for literal, value in zip(pure_literals, assignment[i])]
-        # constructs all possible truth assignments using all possible combinations of True and False
+        # constructs all possible truth assignments using all possible combinations of True and False for the variables in our SAT problem
+        # zip() pairs each literal in pure_literals with its corresponding Boolean value in the current truth assignment tuple (assignment[i])
         # if value is True, keep literal positive, else we negate it
 
         sat = True # assume current truth assignment results in SAT until proven otherwise
         for clause in clause_set:
-            found = False
+            found = False # keep track of whether a particular clause has been satisfied by the truth assignment
             for literal in truth_assignment:
                 if literal in clause:
                     found = True # a clause is satisfied if at least one literal in the clause is True
-            if found == False:
+            if found == False: # if found remains false then at least one clause was unsatisfied, so the whole clause set is UNSAT
                 sat = False
         if sat: #SAT, return satisfying solution
             return truth_assignment
