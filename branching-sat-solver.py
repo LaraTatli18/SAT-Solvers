@@ -17,19 +17,19 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     for clause in clause_set:
         # check for unsatisfied clauses with the current partial assignment
         unsat = True
-        for literal in clause: # a clause is satisfied if any literal in it is satisfied
-            if literal > 0 and literal not in partial_assignment or literal < 0 and -literal not in partial_assignment:
+        for literal in clause: # a clause is satisfied if any literal in it is in the partial assignment
+            if literal > 0 and literal not in partial_assignment or literal < 0 and -literal not in partial_assignment: # inverted logic: checks if a literal in the clause is unsatisfied by the current partial_assignment.
                 unsat = False # mark as satisfied, stop checking further
-                break
+                break # the dual negative is quite counterintuitive; since the code sets unsat = True at the start and then flips it to False upon finding a satisfying literal
         if unsat: # if any clause is unsatisfied by this assignment
             return False
 
     # branch on an unassigned literal
     chooselit = None
     for clause in clause_set:
-        for literal in clause: # select the first unassigned literal
-            if abs(literal) not in [abs(x) for x in partial_assignment]: # find a literal not yet assigned in the partial assignment
-                chooselit = abs(literal)
+        for literal in clause: # select the first unassigned literal (usually the smallest)
+            if abs(literal) not in [abs(x) for x in partial_assignment]: # check the literal not yet assigned in the partial assignment
+                chooselit = abs(literal) # literal, i choose you! 
                 break
         if chooselit is not None:
             break
@@ -38,7 +38,7 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
         return False
 
     # branching step 1: first, try assigning chooselit = True
-    true_assignment = partial_assignment + [chooselit]
+    true_assignment = partial_assignment + [chooselit] # add chosen literal to the partial assignment
     true_clauses = [[i for i in clause if i != chooselit and i != -chooselit] for clause in clause_set if
                     chooselit not in clause]
     # key line: create a reduced clause set by removing all satisfied clauses and removing negated literals from remaining clauses
