@@ -1,4 +1,7 @@
 import numpy as np
+import time
+
+start = time.time()
 def load_dimacs(filename):
     clause_set = []
     sat_file = open(filename)
@@ -54,8 +57,12 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
         return false_result
     return False
 
-# examples
-clause_set = load_dimacs("sat.txt")
+end = time.time()
+
+# example
+clause_set = load_dimacs("LNP-6.txt")
 solution = branching_sat_solve(clause_set, partial_assignment=[])
-numpy_solution = np.array(solution)
-print(np.sort(numpy_solution))
+#numpy_solution = np.array(solution)
+#print(np.sort(numpy_solution))
+print(solution)
+print("Time taken =", end - start)
