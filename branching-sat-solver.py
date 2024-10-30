@@ -29,10 +29,10 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     for clause in clause_set:
         for literal in clause: # select the first unassigned literal (usually the smallest)
             if abs(literal) not in [abs(x) for x in partial_assignment]: # check the literal not yet assigned in the partial assignment
-                chooselit = abs(literal) # literal, i choose you! 
-                break
+                chooselit = abs(literal) # literal, i choose you!
+                break # break out of clause
         if chooselit is not None:
-            break
+            break # break out of clause set if we found a literal to assign
     if chooselit is None:
         # if there are no literals left to assign, UNSAT
         return False
@@ -55,6 +55,7 @@ def branching_sat_solve(clause_set, partial_assignment=[]):
     # if false assignment is successful, return the solution, else UNSAT since neither branch yields a solution
     if false_result != False:
         return false_result
+
     return False
 
 end = time.time()
