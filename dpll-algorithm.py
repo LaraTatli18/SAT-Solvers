@@ -39,7 +39,8 @@ def unit_propagate(clause_set):
 def unit_propagate_literals(clause_set):
     # this also performs unit propagation, but additionally collects each unit literal it finds into listofliterals.
     # returns listofliterals to include in partial_assignment as initial, necessary assignments before branching
-    listofliterals
+    listofliterals = []
+    contprop = True
     while contprop == True:
         contprop = False
         for clause in clause_set:
